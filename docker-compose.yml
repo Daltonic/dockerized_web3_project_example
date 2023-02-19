@@ -1,0 +1,67 @@
+version: "latest"
+
+services:
+  mysql_server:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    networks:
+      - monster-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8080:80
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: mysql_server
+    links:
+      - mysql_server
+    networks:
+      - monster-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 9000:9000
+    volumes:
+      - ./backend:/app
+      - ./backend/node_modules:/app/node_modules
+    depends_on:
+      - mysql_server
+    restart: on-failure
+    networks:
+      - monster-network
+  
+  hardhat_server:
+    build:
+      context: ./hardhat
+      dockerfile: Dockerfile
+    ports:
+      - 8545:8545
+    networks:
+      - monster-network
+
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - hardhat_server
+      - mysql_server
+    links:
+      - hardhat_server
+    networks:
+      - monster-network
+
+networks:
+  monster-network:
+    name: monster-network
