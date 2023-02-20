@@ -27,7 +27,7 @@ To run the demo follow these steps:
    git clone https://github.com/Daltonic/dockerized_web3_project_example dockerized_web3_project
    ```
 
-2. In the root and of the backend directories, create a `.env` files and paste the codes below in it.
+2. In the root directory, create a `.env` file and paste the codes below in it.
 3. Update the `.env` file with the following details.
    ```sh
    MYSQL_DATABASE=<Your Database Name Here>
