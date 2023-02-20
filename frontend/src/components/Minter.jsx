@@ -1,8 +1,8 @@
-import axios from 'axios'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { FaTimes } from 'react-icons/fa'
 import { setGlobalState, useGlobalState } from '../store'
+import { getMints, mintNFT } from '../services/api'
 
 const Minter = () => {
   const [boxModal] = useGlobalState('boxModal')
@@ -11,15 +11,6 @@ const Minter = () => {
   const [image, setImage] = useState('')
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
-
-  const getMints = async () => {
-    return new Promise(async (resolve, reject) => {
-      await axios
-        .get('http://localhost:9000/mints')
-        .then((data) => resolve(data))
-        .catch((error) => reject(new Error(error)))
-    })
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -34,15 +25,13 @@ const Minter = () => {
 
     await toast.promise(
       new Promise(async (resolve, reject) => {
-        await axios
-          .post('http://localhost:9000/process', formData)
-          .then(async (res) => {
-            console.log(res.data)
-            await getMints().then((res) => setGlobalState('mints', res.data.data))
+        await mintNFT(formData)
+          .then(async () => {
+            await getMints().then((res) => setGlobalState('mints', res))
             closeModal()
             resolve()
           })
-          .catch(() => reject())
+          .catch((error) => reject(error))
       }),
       {
         pending: 'Minting & saving data to chain...',
@@ -111,7 +100,7 @@ const Minter = () => {
               required
             />
           </div>
-          
+
           <div className="flex flex-row justify-between items-center bg-gray-800 rounded-xl mt-5">
             <input
               className="block w-full text-sm

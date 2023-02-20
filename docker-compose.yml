@@ -27,6 +27,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    env_file:
+      - ./.env
     ports:
       - 9000:9000
     volumes:
@@ -47,11 +49,12 @@ services:
     networks:
       - monster-network
 
-
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    env_file:
+      - ./.env
     ports:
       - 3000:3000
     depends_on:

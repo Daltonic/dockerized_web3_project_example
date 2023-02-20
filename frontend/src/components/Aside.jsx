@@ -1,21 +1,13 @@
-import axios from 'axios'
 import { useEffect } from 'react'
 import dale5v from '../assets/images/dale5v.png'
+import { getMints } from '../services/api'
 import { setGlobalState, useGlobalState } from '../store'
 
 const Aside = () => {
   const [mints] = useGlobalState('mints')
 
-  const getMints = async () => {
-    return new Promise(async (resolve, reject) => {
-      await axios
-        .get('http://localhost:9000/mints')
-        .then((data) => resolve(data))
-        .catch((error) => reject(new Error(error)))
-    })
-  }
   useEffect(async () => {
-    await getMints().then((res) => setGlobalState('mints', res.data.data))
+    await getMints().then((res) => setGlobalState('mints', res))
   }, [])
   return (
     <div className="w-4/5 py-10 justify-center mt-8 mx-auto">
