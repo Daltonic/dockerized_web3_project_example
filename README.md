@@ -27,35 +27,21 @@ To run the demo follow these steps:
    git clone https://github.com/Daltonic/dockerized_web3_project_example dockerized_web3_project
    ```
 
-2. CD into the frontend folder.
-
-   ```sh
-   cd frontend
-   yarn install
-   ```
-
-3. CD into the backend folder.
-
-   ```sh
-   cd backend
-   yarn install
-   ```
-
-4. In the root directory, create a `.env` file and paste the codes below in it.
-5. Update the `.env` file with the following details.
+2. In the root and of the backend directories, create a `.env` files and paste the codes below in it.
+3. Update the `.env` file with the following details.
    ```sh
    MYSQL_DATABASE=<Your Database Name Here>
    MYSQL_USER=<Your User Name Here>
    MYSQL_PASSWORD=<Your Password Name Here>
    MYSQL_ROOT_PASSWORD=<Your Root/Admin Password Name Here>
    ```
-6. Run `docker-compose up` to launch the services.
+4. Run `docker-compose up` to launch the services.
 
-7. Run `docker-compose down` to end the services.
+5. Run `docker-compose down` to end the services.
 
-8. Visit **http://localhost:8080/** and import the `monsternft.sql` file into your `monsternft` database.
+6. Visit **http://localhost:8080/** and import the `monsternft.sql` file into your `monsternft` database.
    <br/>
-9. Interact with the frontend from **http://localhost:3000/** and the backend at **http://localhost:9000/**.
+7. Interact with the frontend from **http://localhost:3000/** and the backend at **http://localhost:9000/**.
 
 Questions about running the demo? [Open an issue](https://github.com/Daltonic/dockerized_web3_project_example/issues). We're here to help ✌️
 
